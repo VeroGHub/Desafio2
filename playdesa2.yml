@@ -1,0 +1,23 @@
+---
+- hosts: 172.17.0.2
+  tasks:
+  - name: Instala MongoDB
+    apt:
+       name: mongodb
+       state: present
+  - name: Modifica IP en mongo.conf
+    replace:
+       path: /etc/mongodb.conf
+       regexp: 'bind_ip = 127.0.0.1'
+       replace: 'bind_ip = 0.0.0.0'
+  - name: Habilita Port en mongo.conf
+    replace:
+       path: /etc/mongodb.conf
+       regexp: '#port = 27017'
+       replace: 'port = 27017'
+  - name: Inicia MongoDB
+    service:
+       name: mongodb
+       state: started
+
+
